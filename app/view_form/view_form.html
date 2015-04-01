@@ -2,12 +2,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <form>
-                    <div class="form-group">
-                        <label>File: </label>  <input id="file" type="file" ng-model="video.file" required>
+                <form method="post" enctype="multipart/form-data" >
+                    <div class="form-group" >
+                        <label>File: </label>  <input type="file" name="file" file required>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn-primary">Transcode</button>
+                        <button type="submit" class="btn-primary" ng-click="upload()">Transcode</button>
                     </div>
                 </form>
             </div>
