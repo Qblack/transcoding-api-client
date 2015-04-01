@@ -3,9 +3,9 @@
  */
 'use strict';
 
-describe('myApp.view1 module', function() {
+describe('transcoding-ui.view_form module', function() {
 
-    beforeEach(module('myApp.view_form'));
+    beforeEach(module('transcoding-ui.view_form'));
 
     describe('view1 controller', function(){
 
