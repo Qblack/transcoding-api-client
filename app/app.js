@@ -4,6 +4,7 @@
 angular.module('transcoding-ui', [
   'ngRoute',
   'ui.bootstrap',
+  'ngCookies',
   'transcoding-ui.directives',
   'transcoding-ui.view_form'
 ]).

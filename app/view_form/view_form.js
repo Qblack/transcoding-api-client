@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap'])
+angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
 
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/view_form', {
@@ -12,7 +12,7 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap'])
         });
     }])
 
-    .controller('ViewFormCtrl', ['$scope',function ($scope) {
+    .controller('ViewFormCtrl', ['$scope','$cookieStore',function ($scope,$cookieStore) {
         $scope.creds = {
             bucket: 'elasticbeanstalk-us-west-2-030951249387',
             access_key: 'AKIAIET2XYL5I5FPCMBA',
@@ -23,6 +23,8 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap'])
         $scope.uploadProgress = 0;
         $scope.type = 'info';
         $scope.active = 'active';
+
+
 
         $scope.upload = function() {
             AWS.config.update({ accessKeyId: $scope.creds.access_key, secretAccessKey: $scope.creds.secret_key });
@@ -48,7 +50,9 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap'])
                     }
                     else {
                         // Upload Successfully Finished
-                        alert('File Uploaded Successfully');
+                        //fix id generation
+                        var id = 'id'+Math.floor(Math.random()*1000000);
+                        $cookieStore.put(id,uniqueFileName);
 
                         // Reset The Progress Bar
                         setTimeout(function() {
