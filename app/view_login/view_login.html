@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div ng-controller="ViewLoginCtrl">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h1>Welcome to the Transcoder</h1>
+                <h2>Please provide a username to create a session</h2>
 
-</body>
-</html>
+                <form class="form" action="#/view_history">
+                    <div class="form-group form-inline">
+                        <label>
+                            <input class="form-control" type="text" name="username" placeholder="eg {{username}}" required>
+                        </label>
+                        <button type="submit" class="btn btn-primary pull-right" ng-click="login(username)">Start</button>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
