@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('transcoding-ui.view_form', ['ngRoute'])
+angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap'])
 
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/view_form', {
@@ -21,6 +21,8 @@ angular.module('transcoding-ui.view_form', ['ngRoute'])
 
         $scope.sizeLimit      = 10585760; // 10MB in Bytes
         $scope.uploadProgress = 0;
+        $scope.type = 'info';
+        $scope.active = 'active';
 
         $scope.upload = function() {
             AWS.config.update({ accessKeyId: $scope.creds.access_key, secretAccessKey: $scope.creds.secret_key });
@@ -31,7 +33,7 @@ angular.module('transcoding-ui.view_form', ['ngRoute'])
                 // Perform File Size Check First
                 var fileSize = Math.round(parseInt($scope.file.size));
                 if (fileSize > $scope.sizeLimit) {
-                    alert.error('Sorry, your attachment is too big. <br/> Maximum '  + $scope.fileSizeLabel() + ' file attachment allowed');
+                    alert('Sorry, your attachment is too big. <br/> Maximum '  + $scope.fileSizeLabel() + ' file attachment allowed');
                     return false;
                 }
                 // Prepend Unique String To Prevent Overwrites
@@ -51,12 +53,18 @@ angular.module('transcoding-ui.view_form', ['ngRoute'])
                         // Reset The Progress Bar
                         setTimeout(function() {
                             $scope.uploadProgress = 0;
+                            $scope.type = 'info';
+                            $scope.active = 'active';
                             $scope.$digest();
                         }, 4000);
                     }
                 })
                     .on('httpUploadProgress',function(progress) {
                         $scope.uploadProgress = Math.round(progress.loaded / progress.total * 100);
+                        if ($scope.uploadProgress ==100) {
+                            $scope.type = 'success';
+                            $scope.active = '';
+                        }
                         $scope.$digest();
                     });
             }
