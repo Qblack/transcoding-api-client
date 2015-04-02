@@ -12,7 +12,7 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
         });
     }])
 
-    .controller('ViewFormCtrl', ['$scope','$cookieStore',function ($scope,$cookieStore) {
+    .controller('ViewFormCtrl', ['$scope','$cookies','$cookieStore',function ($scope,$cookies,$cookieStore) {
         $scope.creds = {
             bucket: 'elasticbeanstalk-us-west-2-030951249387',
             access_key: 'AKIAIET2XYL5I5FPCMBA',
@@ -51,8 +51,9 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                     else {
                         // Upload Successfully Finished
                         //fix id generation
-                        var id = 'id'+Math.floor(Math.random()*1000000);
+                        var id = Math.floor(Math.random()*1000000);
                         $cookieStore.put(id,uniqueFileName);
+                        $cookies.id = uniqueFileName;
 
                         // Reset The Progress Bar
                         setTimeout(function() {
