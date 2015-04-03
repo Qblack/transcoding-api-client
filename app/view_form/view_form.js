@@ -15,8 +15,8 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
     .controller('ViewFormCtrl', ['$scope','$cookies','$cookieStore',function ($scope,$cookies,$cookieStore) {
         $scope.creds = {
             bucket: 'elasticbeanstalk-us-west-2-030951249387',
-            access_key: 'AKIAIET2XYL5I5FPCMBA',
-            secret_key: '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'
+            access_key: 'AKIAJTRF5AS2EXXYYRJQ',
+            secret_key: '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'
         };
 
         $scope.sizeLimit      = 10585760; // 10MB in Bytes
@@ -53,7 +53,6 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                         //fix id generation
                         var id = Math.floor(Math.random()*1000000);
                         $cookieStore.put(id,uniqueFileName);
-                        $cookies.id = uniqueFileName;
 
                         // Reset The Progress Bar
                         setTimeout(function() {

@@ -12,17 +12,19 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
         });
     }])
 
-    .controller('ViewHistoryCtrl', ['$scope','$cookies',function ($scope,$cookies) {
+    .controller('ViewHistoryCtrl', ['$scope','$cookies','awsApiService' ,function ($scope,$cookies,awsApi) {
         $scope.files = [];
 
-        angular.forEach($cookies, function(value, key){
-            if(key!='username'){
-                var hyphen_index = value.indexOf('-');
-                var original_name = value.substr(hyphen_index+1, value.length-hyphen_index-2);
+        angular.forEach($cookies, function(name, id){
+            if(id!="username"){
+                //var hyphen_index = name.indexOf('-');
+                //value.name = value.substr(hyphen_index + 1, value.length - hyphen_index - 2);
+
+                var video = awsApi.getFile(id);
+                console.log(video);
+                $scope.files.push(video);
 
 
-                $scope.files.push({'id':key,'name':original_name});
             }
         })
-
     }]);

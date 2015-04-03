@@ -6,34 +6,32 @@
 var awsApi = angular.module('awsApi', []);
 
 awsApi.factory('awsApiService', ['$resource', function($resource) {
-
-    var api_url = 'www.api.com/api';
-    var Video = $resource(api_url+'/video/:id',{id:'@id'},
+    var service = {};
+    var api_url = 'http://127.0.0.1:1337';
+    var Video = $resource(api_url+'/videos/:id',{id:'@id'},
         {
             'post':  { method: 'POST' },
-            'get':   { method: 'GET', isArray: true }
+            'get':   { method: 'GET', isArray: false }
         }
     );
 
+    service.getFile = function(id){
+        console.log("getting video");
+        return Video.get({id: id},
 
-    this.getVideo = function(id){
-        var video = Video.get({id:id},
-            function(data){
-                video.id = data.id;
-                video.name =data.name;
-                video.duration = data.duration;
-                video.original = data.original;
-                video.mp4 = data.mp4;
-                video.webm = data.webm;
-                video.progress = data.progress;
-        });
-        return video;
+            function(value){
+                return value;
+            }, function(error){
+                console.log(error);
+            }
+        );
     };
 
-    this.postVideo = function(name){
-      var video = Video.post()
+    service.postVideo = function(name){
+      var video = Video.post();
         // finsh?
     };
+    return service;
 
 }]);
 

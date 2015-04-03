@@ -7,11 +7,17 @@
                         <tr>
                             <th>Id</th>
                             <th>File Name</th>
+                            <th>Duration</th>
+                            <th>Original</th>
+                            <th>mp4 Link</th>
+                            <th>webm Link</th>
+                            <th>Progress</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="file in files">
                             <td>{{file.id}}</td>
+                            <td>{{file.name}}</td>
                             <td>{{file.duration}}</td>
                             <td>{{file.original}}</td>
                             <td>{{file.mp4}}</td>
