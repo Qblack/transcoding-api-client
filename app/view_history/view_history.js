@@ -16,9 +16,11 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
         $scope.files = [];
 
         angular.forEach($cookies, function(value, key){
-            var hyphen_index = value.indexOf('-');
-            var original_name = value.substr(hyphen_index+1, value.length-hyphen_index-2);
-            $scope.files.push({'id':key,'name':original_name});
+            if(key!='username'){
+                var hyphen_index = value.indexOf('-');
+                var original_name = value.substr(hyphen_index+1, value.length-hyphen_index-2);
+                $scope.files.push({'id':key,'name':original_name});
+            }
         })
 
     }]);
