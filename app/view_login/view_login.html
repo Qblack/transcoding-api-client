@@ -5,10 +5,10 @@
                 <h1>Welcome to the Transcoder</h1>
                 <h2>Please provide a username to create a session</h2>
 
-                <form class="form" action="#/view_history">
+                <form class="form">
                     <div class="form-group form-inline">
                         <label>
-                            <input class="form-control" type="text" name="username" placeholder="eg {{username}}" required>
+                            <input class="form-control" type="text" name="username" value="{{existing_username}}" placeholder="eg {{username}}" required>
                         </label>
                         <button type="submit" class="btn btn-primary pull-right" ng-click="login(username)">Start</button>
 

@@ -6,7 +6,7 @@
 angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
 
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/view_form', {
+        $routeProvider.when('/upload', {
             templateUrl: 'view_form/view_form.html',
             controller: 'ViewFormCtrl'
         });

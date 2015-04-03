@@ -6,7 +6,7 @@
 angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
 
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/view_history', {
+        $routeProvider.when('/history', {
             templateUrl: 'view_history/view_history.html',
             controller: 'ViewHistoryCtrl'
         });

@@ -8,8 +8,9 @@ angular.module('transcoding-ui', [
   'transcoding-ui.directives',
   'transcoding-ui.view_form',
   'transcoding-ui.view_history',
-  'transcoding-ui.view_login'
+  'transcoding-ui.view_login',
+  'transcoding-ui.view_home'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/view_form'});
+  $routeProvider.otherwise({redirectTo: '/home'});
 }]);
