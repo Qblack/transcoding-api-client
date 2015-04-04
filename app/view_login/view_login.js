@@ -20,7 +20,9 @@ angular.module('transcoding-ui.view_login', ['ngRoute', 'ui.bootstrap', 'ngCooki
 
         $scope.login = function(username){
            $cookies.username = username;
-            $window.location.href = '#/history';
+		   var num = Math.floor(Math.random()*1000000);
+		   $cookies.session = username.concat(num);
+           $window.location.href = '#/history';
         }
 
     }]);
