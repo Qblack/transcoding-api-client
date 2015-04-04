@@ -26,5 +26,16 @@ angular.module('transcoding-ui.view_login', ['ngRoute', 'ui.bootstrap', 'LocalSt
 
 			$window.location.href = '#/history';
         }
+		
+		$scope.showHome = function(){
+			var bool = true;
+			if (localStorageService.get("user")){
+				bool = false;
+			}
+			else{
+				bool = true;
+			}
+			return bool;
+		}
 
     }]);
