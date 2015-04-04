@@ -15,12 +15,11 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
     .controller('ViewFormCtrl', ['$scope','$cookies','$cookieStore','awsApiService',function ($scope,$cookies,$cookieStore, awsApi) {
 
         $scope.creds = {
-            bucket: 'elasticbeanstalk-us-west-2-030951249387',
-            access_key: 'AKIAJTRF5AS2EXXYYRJQ',
-            secret_key: '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'
+            bucket: 'fadsf',
+            access_key: 'asdf',
+            secret_key: 'fasd+asdf'
         };
-
-        $scope.sizeLimit      = 10585760; // 10MB in Bytes
+        $scope.sizeLimit      = 10585760*1000; // 10MB in Bytes
         $scope.uploadProgress = 0;
         $scope.type = 'info';
         $scope.active = 'active';
@@ -42,11 +41,12 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                 // Prepend Unique String To Prevent Overwrites
                 $scope.uniqueFileName = $scope.uniqueString() + '-' + $scope.file.name;
 
-                var params = { Key: $scope.uniqueFileName, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256' };
+                var params = { Key: $scope.uniqueFileName, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256', GrantRead:'Everyone' };
 
                 bucket.putObject(params, function(err, data) {
                     if(err) {
                         alert(err.code + ': ' +err.message);
+                        $scope.type = 'danger';
                         return false;
                     }
                     else {

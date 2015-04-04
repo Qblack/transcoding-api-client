@@ -34,11 +34,15 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
                 if(id!="username"){
                     if($scope.files[id].progress<100){
                         $scope.updateProgress(id);
+                    }else{
+                        this.clearInterval();
                     }
                 }
             });
         };
 
         setInterval($scope.updateAll,1000);
+
+
 
     }]);

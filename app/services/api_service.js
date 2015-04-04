@@ -7,8 +7,8 @@ var awsApi = angular.module('awsApi', []);
 
 awsApi.factory('awsApiService', ['$resource', function($resource) {
     var service = {};
-    var api_url = 'http://127.0.0.1:1337';
-    var Video = $resource(api_url+'/videos/:id',{id:'@id'},
+    var api_url = 'http://127.0.0.1:4567';
+    var Video = $resource(api_url+'/transcode/:id',{id:'@id'},
         {
             'post':  { method: 'POST' },
             'get':   { method: 'GET', isArray: false }
@@ -22,6 +22,12 @@ awsApi.factory('awsApiService', ['$resource', function($resource) {
     service.postVideo = function(data){
       return Video.post(data);
     };
+
+    service.uploadFile = function(sessionId){
+        return $resource(api_url+'/upload/:session').post({session:sessionId});
+    };
+
+
 
     return service;
 
