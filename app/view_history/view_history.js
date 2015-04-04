@@ -13,18 +13,32 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
     }])
 
     .controller('ViewHistoryCtrl', ['$scope','$cookies','awsApiService' ,function ($scope,$cookies,awsApi) {
-        $scope.files = [];
+        $scope.files = {};
 
         angular.forEach($cookies, function(name, id){
             if(id!="username"){
-                //var hyphen_index = name.indexOf('-');
-                //value.name = value.substr(hyphen_index + 1, value.length - hyphen_index - 2);
-
-                var video = awsApi.getFile(id);
-                console.log(video);
-                $scope.files.push(video);
-
-
+                awsApi.getFile(id).$promise.then(function(video) {
+                    $scope.files[id] = video;
+                });
             }
-        })
+        });
+
+        $scope.updateProgress = function(id){
+            awsApi.getFile(id).$promise.then(function(video) {
+                $scope.files[id].progress = video.progress;
+            });
+        };
+
+        $scope.updateAll = function(){
+            angular.forEach($scope.files, function(name, id){
+                if(id!="username"){
+                    if($scope.files[id].progress<100){
+                        $scope.updateProgress(id);
+                    }
+                }
+            });
+        };
+
+        setInterval($scope.updateAll,1000);
+
     }]);
