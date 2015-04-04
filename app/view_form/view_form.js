@@ -12,7 +12,8 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
         });
     }])
 
-    .controller('ViewFormCtrl', ['$scope','$cookies','$cookieStore',function ($scope,$cookies,$cookieStore) {
+    .controller('ViewFormCtrl', ['$scope','$cookies','$cookieStore','awsApiService',function ($scope,$cookies,$cookieStore, awsApi) {
+
         $scope.creds = {
             bucket: 'elasticbeanstalk-us-west-2-030951249387',
             access_key: 'AKIAJTRF5AS2EXXYYRJQ',
@@ -39,9 +40,9 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                     return false;
                 }
                 // Prepend Unique String To Prevent Overwrites
-                var uniqueFileName = $scope.uniqueString() + '-' + $scope.file.name;
+                $scope.uniqueFileName = $scope.uniqueString() + '-' + $scope.file.name;
 
-                var params = { Key: uniqueFileName, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256' };
+                var params = { Key: $scope.uniqueFileName, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256' };
 
                 bucket.putObject(params, function(err, data) {
                     if(err) {
@@ -51,8 +52,11 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                     else {
                         // Upload Successfully Finished
                         //fix id generation
-                        var id = Math.floor(Math.random()*1000000);
-                        $cookieStore.put(id,uniqueFileName);
+                        var id = 0;
+                        awsApi.postVideo(JSON.stringify({'url':$scope.getFileUrl()})).$promise.then(function(response){
+                            id = response.id;
+                            $cookieStore.put(id,$scope.uniqueFileName);
+                        });
 
                         // Reset The Progress Bar
                         setTimeout(function() {
@@ -91,7 +95,13 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                 text += possible.charAt(Math.floor(Math.random() * possible.length));
             }
             return text;
-        }
+        };
+
+        $scope.getFileUrl = function(){
+            return $scope.creds.bucket +'/'+ $scope.uniqueFileName;
+        };
+
+
 
 
     }]);

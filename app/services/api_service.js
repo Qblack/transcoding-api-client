@@ -19,9 +19,10 @@ awsApi.factory('awsApiService', ['$resource', function($resource) {
         return Video.get({id: id});
     };
 
-    service.postVideo = function(){
-      return Video.post();
+    service.postVideo = function(data){
+      return Video.post(data);
     };
+
     return service;
 
 }]);
