@@ -113,6 +113,8 @@
 	
 		Category / Task											Primary Member, Assisting Member
 		Client													Quinton Black, Colin Hagerman
+			Layout Template											Quinton Black
+			Navigation Bar											Colin Hagerman
 			Upload Form												Quinton Black
 			Embedded Video page										Quinton Black
 			History of transcoded videos							Quinton Black
@@ -120,7 +122,7 @@
 			Cookie / Session ID Tracking							Colin Hagerman
 			Additional UI Aesthetics								Colin Hagerman
 				
-		Server													Matthew Cook, Colin Hagerman
+		Server													Matthew Cook
 			Setup AWS (Sinatra, FFMPEG, Ruby, Git deploy)			Matthew Cook
 			Create Sample Restful JSON API							Matthew Cook
 			Transcode video into mp4 h264 format from S3 bucket		Matthew Cook
@@ -213,6 +215,7 @@
 		
 		Component One: NavBar
 			-> Displays navigation bar along top of screen as described above
+			-> Hides Home page option if user has a session ID to avoid overwriting it
 			
 		Component Two: Login (Session ID)
 			-> Welcome screen with prompt for username to create session ID
