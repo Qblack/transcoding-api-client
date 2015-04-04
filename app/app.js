@@ -6,6 +6,7 @@ angular.module('transcoding-ui', [
   'ui.bootstrap',
   'ngCookies',
   'ngResource',
+  'LocalStorageModule',
   'transcoding-ui.directives',
   'transcoding-ui.view_form',
   'transcoding-ui.view_history',
