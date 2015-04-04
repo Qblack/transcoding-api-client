@@ -22,9 +22,9 @@ angular.module('transcoding-ui.view_login', ['ngRoute', 'ui.bootstrap', 'LocalSt
         $scope.login = function(username){
 			var num = Math.floor(Math.random()*1000000);
 			localStorageService.set("user",username);
-			localStorageService.set("localId",num);
+			localStorageService.set("sessionId",num);
 
-			$window.location.href = '#/history';
+			$window.location.assign('#/history');
         }
 		
 		$scope.showHome = function(){
@@ -35,6 +35,21 @@ angular.module('transcoding-ui.view_login', ['ngRoute', 'ui.bootstrap', 'LocalSt
 			else{
 				bool = true;
 			}
+			return bool;
+		}
+		
+		$scope.path = function(){
+			var bool = true;
+			var loc = $window.location.href
+			var last = loc.substr(loc.length - 7);
+			
+			if (last == 'history'){
+				bool = true;
+			}
+			else{
+				bool = false;
+			}
+			//alert(last);
 			return bool;
 		}
 
