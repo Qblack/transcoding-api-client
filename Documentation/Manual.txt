@@ -101,11 +101,11 @@
 			Transcoding job will start process and run FFMPEG jobs in order specified by client. If job is already running, API will start 
 			AWS transcoding request. This allows for quick scaling.
 
-		Software Architecture
-			Model View Controller (MVC) for client
-			Representational State Transfer (REST) for API
-				Focuses on use of HTTP for calls between Client & Server versus more complex options like COBRA
-				Simpler and more lightweight compared to Remote Procedure Calls (RPC) and other Web Services such as SOAP
+			Software Architecture
+				Model View Controller (MVC) for client
+				Representational State Transfer (REST) for API
+					Focuses on use of HTTP for calls between Client & Server versus more complex options like COBRA
+					Simpler and more lightweight compared to Remote Procedure Calls (RPC) and other Web Services such as SOAP
 
 
 				
@@ -132,7 +132,8 @@
 			Structure												Colin Hagerman
 			Content													Colin Hagerman
 			
-			
+		Testing													Colin Hagerman
+		
 			
 	3.0 INSTALLATION REQUIREMENTS
 	
@@ -164,18 +165,42 @@
 		2) After viewing message indicating the port number the server is running on, enter the URL: localhost:8000 (default port)
 		3) Enter the App folder to display the homepage
 	
+		Option 1: No Account
+			4) Enter desired username
+			5) Press start button where you will be redirected to the transaction history page
+			
+		Option 2: User Database
+			4) Select the "Sign In" or "Create Account" option along the top navigation bar
+			5) Enter desired username and password. You will be signed in upon successful login
+			
+		6) Select the upload button on the navigation bar along the top
+		7) Press the "choose file" button and select a video less than 10MB in size
+		8) Upload the file
+		9) Navigate to the transaction file to see a list of transcoded videos connected to the user account (temporary or otherwise)
 	
-	5.0 DATABASE DESIGN
-	
-	5.1 VIDEO FILE STORAGE
+	5.0 SERVER IMPLEMENTATION
 		
-		Utilizes Amazon S3 Bucket
+		Video Storage: Amazon S3 Bucket
 			-> Secure (SSL), durable, and scalable object storage
 			-> Can be integrated with other AWS services as well as third party storage and gateways
 			-> Pay for Use storage
 			-> Allows location of storage to minimize latency and address regulatory concerns
 			-> 99.999999999% durability through redundant storage in different areas and devices
 			-> Chosen to keep separate from school for future use in private companies
+			
+		Video Conversion: FFmpeg
+			-> Leading multimedia framework able to decode, encode, transcode, mux, demux, stream, filter and play almost any file
+			-> Allows various video manipulation options which can be added to application such as:
+				specifying the bit rate, number of frames, maximum size, grabbing thumbnails, and selecting only an abstract of the video
+		
+		Job Queuing: Redis
+			-> REmote DIctionary Server
+			-> In-memory, persistent disk database which allows for high read and write speeds
+				->Memory limits the number of data sets available
+			-> Minimizes CPU usage, even with multiple job requests through pipelining
+			-> Highly scalable
+			
+		
 			
 			
 	5.2 USER AUTHENTICATION
@@ -245,8 +270,19 @@
 	
 	
 	7.0 SYSTEM INTERCONNECTIVITY
-
+	
+					      Cookie Info & Video 			 		Video Object -> Redis Queue
+			Client ---------------------------------> Server ---------------------|----------> Amazon S3 Bucket
+		  Angular JS		JSON Return			  Ruby Sinatra					  -->FFmpeg
 		
 		
-		
-		
+		Output JSON Structure
+		 {
+		 id: @id, 
+		 name: @name, 
+		 duration: @duration, 
+		 original: @original, 
+		 mp4: @mp4, 
+		 webm: @webm, 
+		 progress: @progress
+		}
