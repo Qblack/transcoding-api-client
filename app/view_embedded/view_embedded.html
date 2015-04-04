@@ -1,0 +1,19 @@
+<div ng-controller="ViewEmbeddedCtrl">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h1>{{video.name}}</h1>
+                <video ng-if="video" width="320" height="240" controls>
+                    <source ng-src="{{video.mp4 | trusted}}" type="video/mp4">
+                    <source ng-src="{{video.webm | trusted}}" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+                <a href="{{video.mp4}}">Download mp4</a>
+                <a href="{{video.webm}}">Download webm</a>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
