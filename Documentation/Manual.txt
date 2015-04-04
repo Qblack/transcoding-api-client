@@ -117,7 +117,7 @@
 			Embedded Video page										Quinton Black
 			History of transcoded videos							Quinton Black
 			Progress Visibility										Quinton Black
-			Cookie / Session ID Tracking							Quinton Black
+			Cookie / Session ID Tracking							Quinton Black, Colin Hagerman
 			Additional UI Aesthetics								Colin Hagerman
 			(Optional) Login Authentication							Colin Hagerman
 				
