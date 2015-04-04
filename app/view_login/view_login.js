@@ -1,6 +1,3 @@
-/**
- * Created by Q on 4/1/2015.
- */
 'use strict';
 
 angular.module('transcoding-ui.view_login', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
@@ -22,9 +19,8 @@ angular.module('transcoding-ui.view_login', ['ngRoute', 'ui.bootstrap', 'ngCooki
         }
 
         $scope.login = function(username){
-            $cookies.username = username;
+           $cookies.username = username;
             $window.location.href = '#/history';
-
         }
 
     }]);

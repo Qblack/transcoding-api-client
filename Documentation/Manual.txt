@@ -1,0 +1,288 @@
+
+												TRANSCODING API
+												
+										CP476: Internet Computing Final Project
+											Version 1.0		April 6, 2015
+											
+						Quinton Black			 Matthew Cook  			Colin Hagerman
+	
+	
+	TABLE OF CONTENTS
+		1.0	Project Proposal
+			1.1 Problem Identification & Description
+			1.2 Project Scope & Specifications
+			1.3 Implementation Overview
+			
+		2.0	Work Breakdown
+		
+		3.0 Installation Requirements
+		
+		4.0 Using the Application
+		
+		5.0 Database Design
+			5.1 Video Storage
+			5.2 User Authentication
+			
+		6.0 Interface Design
+		
+		7.0 System Interconnectivity
+		
+		
+	
+		
+	1.0 PROJECT PROPOOSAL
+	
+	1.1 PROBLEM IDENTIFICATION & DESCRIPTION
+		What is Transcoding
+			Transcoding is the process of adapting a digital file into a different kind of digital file so that playback
+			is possible on different devices. Acting as an interpreter, the source format is translated into a raw intermediate
+			format where it is then re-translated into a format the end user can recognize.
+	
+		Problem and Opportunity
+			As the internet and number of connectible devices continue to grow (IoT), file formats and those recognized between various
+			operating systems as well as devices (i.e. mobile vs. desktop) becomes an ever increasing issue. To help combat this, two 
+			primary solutions have arisen to automate content reformatting. They are:
+				1) Transcoding Server Product
+				2) Transcoding Service
+			This work is generally outsourced to other parties or software due to the algorithmic computations and processing resources
+			needed. Put simply, transcoding software ensures file formats will work across common browsers and devices.
+			
+			The issue we look to solve in CP476 within transcoding, is that of its availability. Although these services already exist,
+			they can be quite costly. We will look to create an open source product that will allow anyone to use an S3 link to easily 
+			embed the transcoded video in their website. The purpose is to save people time and money on this expanding
+			problem.
+
+	1.2 PROJECT SCOPE & TECHNOLOGIES INTEGRATED
+			S3 to store videos and thumbnails
+				Amazon cloud & Internet Storage (See Section 4.1 for more details)
+				
+			Amazon Web Service (AWS) Elastic Compute Cloud (EC2) instance for needed transcoding resources
+				Electronic Cloud Computing allows access to varying combinations of CPU, Memory Storage, and Network Capacity providing 
+				flexibility to mix resources as needed. As mentioned in section 1.1, many resources are needed to execute the algorithms
+				involved in transcoding. Cloud computing allows smaller companies access to these Pay for Use resources by sharing them 
+				so we are not left with unnecessary idle time of self-owned hardware.
+				The application involves various other features for automatic scaling, independent persistence, availability and reliability.
+				
+			AWS Transcoder for transcoding computations
+				Pay for Use based on output length and is easily scalable
+				Anyone with access to this project will be able to transcode their files through the managing private company without
+				needing to create their own accounts or incur any of the costs
+				
+			FFmpeg - C library for transcoding video
+				Leading multimedia framework able to decode, encode, transcode, mux, demux, stream, filter and play almost any file
+				
+			API runs on a Ruby Sinatra server
+				Domain Specific Language for creating web applications in Ruby quickly
+				
+			Client implemented using AngularJS
+				Used for strengths in data binding and dependency injection to minimize required code
+				
+			Focused Video Formats & Reasoning:
+				Mp4 - H.264  (Most popular) >80%
+				Webm (Firefox OSX/Linux) other 19%
+
+				
+	1.3 IMPLEMENTATION OVERVIEW
+			API server
+				Accepts JSON formatted requests from Client
+				API Server which accepts S3 link and will auto transcode any clip into formats that are playable by all major browsers
+				User will be able to upload any video file to S3 (Mov, Avi, mp4)
+				file will be converted into 2 separate videos which will allow the video to be embedded into any website
+				Server will return JSON structure which includes embeddable video S3 links (2 links)
+				Also returns metadata about video file (duration, thumbnail, frame rate)
+
+			Client (Ajax requests - Optional server for user authentication)
+				Upload form to upload Video file to a client owned S3 bucket
+				Redirects to a video page which will play file in modern browsers
+				Frontend will allow for uploads and make use of API to transcode and deliver embeddable video link
+				Determine users browser and deliver priority for specific video file required
+				Html5 video player (ex. Video.js, Jwplayer.js)
+			
+			Transcoding job will start process and run FFMPEG jobs in order specified by client. If job is already running, API will start 
+			AWS transcoding request. This allows for quick scaling.
+
+			Software Architecture
+				Model View Controller (MVC) for client
+				Representational State Transfer (REST) for API
+					Focuses on use of HTTP for calls between Client & Server versus more complex options like COBRA
+					Simpler and more lightweight compared to Remote Procedure Calls (RPC) and other Web Services such as SOAP
+
+
+				
+	2.0 WORK BREAKDOWN
+	
+		Category / Task											Primary Member, Assisting Member
+		Client													Quinton Black, Colin Hagerman
+			Upload Form												Quinton Black
+			Embedded Video page										Quinton Black
+			History of transcoded videos							Quinton Black
+			Progress Visibility										Quinton Black
+			Cookie / Session ID Tracking							Quinton Black
+			Additional UI Aesthetics								Colin Hagerman
+			(Optional) Login Authentication							Colin Hagerman
+				
+		Server													Matthew Cook, Colin Hagerman
+			Setup AWS (Sinatra, FFMPEG, Ruby, Git deploy)			Matthew Cook
+			Create Sample Restful JSON API							Matthew Cook
+			Transcode video into mp4 h264 format from S3 bucket		Matthew Cook
+			implement AWS Transcode API fallback					Matthew Cook
+			(Optional) User Database Design							Colin Hagerman	
+			
+		Documentation											Colin Hagerman
+			Structure												Colin Hagerman
+			Content													Colin Hagerman
+			
+		Testing													Colin Hagerman
+		
+			
+	3.0 INSTALLATION REQUIREMENTS
+	
+		Complete In Order:
+			1)	NPM (Node.js) -> May require certain anti-virus program exclusions to run files
+							  -> Download from:
+								https://nodejs.org/download/
+								
+			2)	Git -> Open source software development tool with version control
+					-> Required by Bower
+					-> Download from:
+						http://git-scm.com/downloads
+					-> Git was also used as a repository to share this project throughout it's development life cycle
+			
+			3)	Bower -> Package Manager using bower.json manifest file
+					  -> Global Installation
+					  -> Required by Gulp
+					  -> $ npm install -g bower
+					  
+			4)	Gulp -> Simplifies, automates, and overall eases the use of node streams
+					 -> Global Installation
+					 -> Required by Ruby Sinatra Server
+					 -> $ npm install --global gulp
+					 
+					 
+	4.0	USING THE APPLICATION
+	
+		1) Open command line in transcoding project folder and enter $ npm start
+		2) After viewing message indicating the port number the server is running on, enter the URL: localhost:8000 (default port)
+		3) Enter the App folder to display the homepage
+	
+		Option 1: No Account
+			4) Enter desired username
+			5) Press start button where you will be redirected to the transaction history page
+			
+		Option 2: User Database
+			4) Select the "Sign In" or "Create Account" option along the top navigation bar
+			5) Enter desired username and password. You will be signed in upon successful login
+			
+		6) Select the upload button on the navigation bar along the top
+		7) Press the "choose file" button and select a video less than 10MB in size
+		8) Upload the file
+		9) Navigate to the transaction file to see a list of transcoded videos connected to the user account (temporary or otherwise)
+	
+	5.0 SERVER IMPLEMENTATION
+		
+		Video Storage: Amazon S3 Bucket
+			-> Secure (SSL), durable, and scalable object storage
+			-> Can be integrated with other AWS services as well as third party storage and gateways
+			-> Pay for Use storage
+			-> Allows location of storage to minimize latency and address regulatory concerns
+			-> 99.999999999% durability through redundant storage in different areas and devices
+			-> Chosen to keep separate from school for future use in private companies
+			
+		Video Conversion: FFmpeg
+			-> Leading multimedia framework able to decode, encode, transcode, mux, demux, stream, filter and play almost any file
+			-> Allows various video manipulation options which can be added to application such as:
+				specifying the bit rate, number of frames, maximum size, grabbing thumbnails, and selecting only an abstract of the video
+		
+		Job Queuing: Redis
+			-> REmote DIctionary Server
+			-> In-memory, persistent disk database which allows for high read and write speeds
+				->Memory limits the number of data sets available
+			-> Minimizes CPU usage, even with multiple job requests through pipelining
+			-> Highly scalable
+			
+		
+			
+			
+	5.2 USER AUTHENTICATION
+	
+		Note: By default, system will use stored session IDs for linking transcoded videos to a username
+			  Scope of user authentication is used as a redundancy in case session ID gets deleted
+			  Users are not required to create an account and may simply use a generic username for the session ID
+	
+		Hopper MySQL Database
+			-> Future implementation of a user dedicated database is in question for private company use
+			   beyond school and may not be used outside the scope of CP476
+	
+		Table #1:	Login
+			Username 		| 	Password
+				String  	| 		SHA256 with SALT
+				Primary	Key	|		Duplicates Allowed
+				Unique		| 		Required
+		
+		Table #2:	Transcoded Video List
+			Username		|	Video Identifier
+				Foreign	Key	|		Duplicates Possible
+				Duplicates	|		
+				Required	|		Required
+		
+		Each user can have many transcoded videos however, each transcoded video record in database will belong to
+		only one user (1-Many Relationship between Table #1 and Table #2).
+	
+	
+		
+	6.0 USER INTERFACE DESIGN
+	
+	6.1 NAVIGATION BAR
+		-> Menu bar which includes links to the homepage, file upload screen, transcode history, and the Manual on the left side
+		-> This menu gets included in the top of each webpage for consistent user navigation
+		-> Contains company logo in the leftmost corner of the navigation bar
+		-> (Optional) On the right side there are links to sign in or create an account
+	
+	6.2 HOME PAGE
+		-> Comprised of many separate files which get combined into one and wrapped with angular bootstraps, cookies, and other JS files
+		-> The four primary functions which the script and HTML files drive on the home page are listed below
+		
+		Component One: NavBar
+			-> Displays navigation bar along top of screen as described above
+			
+		Component Two: Login (Session ID)
+			-> Welcome screen with prompt for username to create session ID
+			-> Includes start button to create corresponding session ID and redirect to transcoding history page
+			-> The transcoding history will be lost upon closing the browser unless an account is created
+			
+		Component Three: Home
+			-> A brief description of what transcoding is and some possible uses and functions of it can be found below the prompt
+		
+		Component Four:
+			-> No HTML page is loaded for this however, scripts are used to identify the IE browser version for transcoding purposes
+			
+	6.3 HISTORY PAGE
+		-> Displays all transcoding videos connected the user's session ID or logged in account
+		-> Details shown in order from left to right are:
+			Id, Filename, Duration, Original, mp4 Link, webm Link, Progress
+
+	6.4 UPLOAD PAGE
+		-> Centered in the screen is a prompt for the user to select a file to upload
+		-> If the transcode button is pressed with no file loaded then a prompt to load a file will appear
+		-> If the button is pressed with a file loaded, a progress bar will update with the the status of the upload
+		
+		Note: Given the stage of development of this project, the file size has been limited to 10MB
+	
+	
+	7.0 SYSTEM INTERCONNECTIVITY
+	
+					      Cookie Info & Video 			 		Video Object -> Redis Queue
+			Client ---------------------------------> Server ---------------------|----------> Amazon S3 Bucket
+		  Angular JS		JSON Return			  Ruby Sinatra					  -->FFmpeg
+		
+		
+		Output JSON Structure
+		 {
+		 id: @id, 
+		 name: @name, 
+		 duration: @duration, 
+		 original: @original, 
+		 mp4: @mp4, 
+		 webm: @webm, 
+		 progress: @progress
+		}
