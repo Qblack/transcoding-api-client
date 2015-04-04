@@ -19,11 +19,11 @@
 		
 		4.0 Using the Application
 		
-		5.0 Database Design
-			5.1 Video Storage
-			5.2 User Authentication
+		5.0 Server Implementation
 			
 		6.0 Interface Design
+			6.1 User Authentication
+			6.2 Various Page Interactions
 		
 		7.0 System Interconnectivity
 		
@@ -117,16 +117,14 @@
 			Embedded Video page										Quinton Black
 			History of transcoded videos							Quinton Black
 			Progress Visibility										Quinton Black
-			Cookie / Session ID Tracking							Quinton Black, Colin Hagerman
+			Cookie / Session ID Tracking							Colin Hagerman
 			Additional UI Aesthetics								Colin Hagerman
-			(Optional) Login Authentication							Colin Hagerman
 				
 		Server													Matthew Cook, Colin Hagerman
 			Setup AWS (Sinatra, FFMPEG, Ruby, Git deploy)			Matthew Cook
 			Create Sample Restful JSON API							Matthew Cook
 			Transcode video into mp4 h264 format from S3 bucket		Matthew Cook
 			implement AWS Transcode API fallback					Matthew Cook
-			(Optional) User Database Design							Colin Hagerman	
 			
 		Documentation											Colin Hagerman
 			Structure												Colin Hagerman
@@ -164,19 +162,11 @@
 		1) Open command line in transcoding project folder and enter $ npm start
 		2) After viewing message indicating the port number the server is running on, enter the URL: localhost:8000 (default port)
 		3) Enter the App folder to display the homepage
-	
-		Option 1: No Account
-			4) Enter desired username
-			5) Press start button where you will be redirected to the transaction history page
-			
-		Option 2: User Database
-			4) Select the "Sign In" or "Create Account" option along the top navigation bar
-			5) Enter desired username and password. You will be signed in upon successful login
-			
-		6) Select the upload button on the navigation bar along the top
-		7) Press the "choose file" button and select a video less than 10MB in size
-		8) Upload the file
-		9) Navigate to the transaction file to see a list of transcoded videos connected to the user account (temporary or otherwise)
+		4) Enter desired username and press the Start button to be taken to the transaction history page
+		5) Select the upload button on the navigation bar along the top
+		6) Press the "choose file" button and select a video less than 10MB in size
+		7) Upload the file
+		8) Navigate to the transaction file to see a list of transcoded videos connected to the user account (temporary or otherwise)
 	
 	5.0 SERVER IMPLEMENTATION
 		
@@ -198,47 +188,26 @@
 			-> In-memory, persistent disk database which allows for high read and write speeds
 				->Memory limits the number of data sets available
 			-> Minimizes CPU usage, even with multiple job requests through pipelining
-			-> Highly scalable
-			
-		
-			
-			
-	5.2 USER AUTHENTICATION
-	
-		Note: By default, system will use stored session IDs for linking transcoded videos to a username
-			  Scope of user authentication is used as a redundancy in case session ID gets deleted
-			  Users are not required to create an account and may simply use a generic username for the session ID
-	
-		Hopper MySQL Database
-			-> Future implementation of a user dedicated database is in question for private company use
-			   beyond school and may not be used outside the scope of CP476
-	
-		Table #1:	Login
-			Username 		| 	Password
-				String  	| 		SHA256 with SALT
-				Primary	Key	|		Duplicates Allowed
-				Unique		| 		Required
-		
-		Table #2:	Transcoded Video List
-			Username		|	Video Identifier
-				Foreign	Key	|		Duplicates Possible
-				Duplicates	|		
-				Required	|		Required
-		
-		Each user can have many transcoded videos however, each transcoded video record in database will belong to
-		only one user (1-Many Relationship between Table #1 and Table #2).
-	
+			-> Highly scalable		
 	
 		
 	6.0 USER INTERFACE DESIGN
 	
-	6.1 NAVIGATION BAR
+	6.1 USER AUTHENTICATION
+	
+		Note: By default, system will use stored session IDs for linking transcoded videos to a username
+			  Persistence is achieved through local storage as angular v1.3.15 does not support changing a session expiration date
+	
+		Each user can have many transcoded videos however, each transcoded video record in database will belong to
+		only one user (1-Many Relationship between Table #1 and Table #2).
+	
+	6.2 VARIOUS PAGE INTERACTOINS
 		-> Menu bar which includes links to the homepage, file upload screen, transcode history, and the Manual on the left side
 		-> This menu gets included in the top of each webpage for consistent user navigation
 		-> Contains company logo in the leftmost corner of the navigation bar
 		-> (Optional) On the right side there are links to sign in or create an account
 	
-	6.2 HOME PAGE
+	 HOME PAGE
 		-> Comprised of many separate files which get combined into one and wrapped with angular bootstraps, cookies, and other JS files
 		-> The four primary functions which the script and HTML files drive on the home page are listed below
 		
@@ -256,12 +225,12 @@
 		Component Four:
 			-> No HTML page is loaded for this however, scripts are used to identify the IE browser version for transcoding purposes
 			
-	6.3 HISTORY PAGE
+	 HISTORY PAGE
 		-> Displays all transcoding videos connected the user's session ID or logged in account
 		-> Details shown in order from left to right are:
 			Id, Filename, Duration, Original, mp4 Link, webm Link, Progress
 
-	6.4 UPLOAD PAGE
+	 UPLOAD PAGE
 		-> Centered in the screen is a prompt for the user to select a file to upload
 		-> If the transcode button is pressed with no file loaded then a prompt to load a file will appear
 		-> If the button is pressed with a file loaded, a progress bar will update with the the status of the upload
