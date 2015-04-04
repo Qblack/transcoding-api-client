@@ -16,19 +16,13 @@ awsApi.factory('awsApiService', ['$resource', function($resource) {
     );
 
     service.getFile = function(id){
-        return Video.get({id: id}//,
-            //function(value){
-            //    return value;
-            //}, function(error){
-            //    console.log(error);
-            //}
-        );
+        return Video.get({id: id});
     };
 
-    service.postVideo = function(name){
-      var video = Video.post();
-        // finsh?
+    service.postVideo = function(data){
+      return Video.post(data);
     };
+
     return service;
 
 }]);
