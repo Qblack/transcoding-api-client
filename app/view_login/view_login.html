@@ -8,12 +8,10 @@
                 <form class="form">
                     <div class="form-group form-inline">
                         <label>
-                            <input class="form-control" type="text" name="username" value="{{existing_username}}" placeholder="eg {{username}}" required>
+                            <input class="form-control" type="text" ng-model="user" value="{{existing_username}}" placeholder="eg {{username}}" required>
                         </label>
-                        <button type="submit" class="btn btn-primary pull-right" ng-click="login(username)">Start</button>
-
+                        <button type="submit" class="btn btn-primary pull-right" ng-click="login(user)">Start</button>
                     </div>
-
                 </form>
             </div>
         </div>
