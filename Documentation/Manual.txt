@@ -131,7 +131,7 @@
 			Structure												Colin Hagerman
 			Content													Colin Hagerman
 			
-		Testing													Colin Hagerman
+		Testing													Quinton Black, Colin Hagerman
 		
 			
 	3.0 INSTALLATION REQUIREMENTS
