@@ -39,7 +39,7 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                     return false;
                 }
                 // Prepend Unique String To Prevent Overwrites
-                $scope.uniqueFileName = $scope.uniqueString() + '-' + $scope.file.name;
+                $scope.uniqueFileName = localStorageService.get('sessionId')+'/' +$scope.uniqueString() + '-' + $scope.file.name;
 
                 var params = { Key: $scope.uniqueFileName, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256', ACL: 'public-read' };
 
