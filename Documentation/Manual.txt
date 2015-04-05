@@ -1,5 +1,5 @@
 
-												TRANSCODING API
+													TRANSCODING API
 												
 										CP476: Internet Computing Final Project
 											Version 1.0		April 6, 2015
@@ -26,8 +26,7 @@
 			6.2 Various Page Interactions
 		
 		7.0 System Interconnectivity
-		
-		
+				
 	
 		
 	1.0 PROJECT PROPOOSAL
@@ -91,7 +90,7 @@
 				Server will return JSON structure which includes embeddable video S3 links (2 links)
 				Also returns metadata about video file (duration, thumbnail, frame rate)
 
-			Client (Ajax requests - Optional server for user authentication)
+			Client (Ajax requests)
 				Upload form to upload Video file to a client owned S3 bucket
 				Redirects to a video page which will play file in modern browsers
 				Frontend will allow for uploads and make use of API to transcode and deliver embeddable video link
@@ -114,13 +113,13 @@
 		Category / Task											Primary Member, Assisting Member
 		Client													Quinton Black, Colin Hagerman
 			Layout Template											Quinton Black
-			Navigation Bar											Colin Hagerman
-			Upload Form												Quinton Black
+			Navigation Bar											Colin Hagerman, Quinton Black
+			Upload Form												Quinton Black, Colin Hagerman
 			Embedded Video page										Quinton Black
 			History of transcoded videos							Quinton Black
 			Progress Visibility										Quinton Black
-			Cookie / Session ID Tracking							Colin Hagerman
-			Additional UI Aesthetics								Colin Hagerman
+			Session ID Tracking										Colin Hagerman, Quinton Black
+			Overall UI Themed Aesthetics							Colin Hagerman
 				
 		Server													Matthew Cook
 			Setup AWS (Sinatra, FFMPEG, Ruby, Git deploy)			Matthew Cook
@@ -152,11 +151,6 @@
 					  -> Global Installation
 					  -> Required by Gulp
 					  -> $ npm install -g bower
-					  
-			4)	Gulp -> Simplifies, automates, and overall eases the use of node streams
-					 -> Global Installation
-					 -> Required by Ruby Sinatra Server
-					 -> $ npm install --global gulp
 					 
 					 
 	4.0	USING THE APPLICATION
@@ -166,7 +160,7 @@
 		3) Enter the App folder to display the homepage
 		4) Enter desired username and press the Start button to be taken to the transaction history page
 		5) Select the upload button on the navigation bar along the top
-		6) Press the "choose file" button and select a video less than 10MB in size
+		6) Press the "choose file" button and select a video
 		7) Upload the file
 		8) Navigate to the transaction file to see a list of transcoded videos connected to the user account (temporary or otherwise)
 	
@@ -199,6 +193,8 @@
 	
 		Note: By default, system will use stored session IDs for linking transcoded videos to a username
 			  Persistence is achieved through local storage as angular v1.3.15 does not support changing a session expiration date
+			  This was chosen over a database as AWS is a cloud database with encryption and Redis is a version of a NoSQL database.
+			  Sessions are a quick and easy way for users as well as keeping for keeping client side and free of server side operations.
 	
 		Each user can have many transcoded videos however, each transcoded video record in database will belong to
 		only one user (1-Many Relationship between Table #1 and Table #2).
@@ -207,7 +203,7 @@
 		-> Menu bar which includes links to the homepage, file upload screen, transcode history, and the Manual on the left side
 		-> This menu gets included in the top of each webpage for consistent user navigation
 		-> Contains company logo in the leftmost corner of the navigation bar
-		-> (Optional) On the right side there are links to sign in or create an account
+		-> Options fluctuation based on whether or not user has a valid session
 	
 	 HOME PAGE
 		-> Comprised of many separate files which get combined into one and wrapped with angular bootstraps, cookies, and other JS files
@@ -216,29 +212,22 @@
 		Component One: NavBar
 			-> Displays navigation bar along top of screen as described above
 			-> Hides Home page option if user has a session ID to avoid overwriting it
+			-> Hides transcoding options if no session ID to force user to create one as it is required for the history page
 			
 		Component Two: Login (Session ID)
 			-> Welcome screen with prompt for username to create session ID
 			-> Includes start button to create corresponding session ID and redirect to transcoding history page
-			-> The transcoding history will be lost upon closing the browser unless an account is created
 			
 		Component Three: Home
 			-> A brief description of what transcoding is and some possible uses and functions of it can be found below the prompt
-		
-		Component Four:
-			-> No HTML page is loaded for this however, scripts are used to identify the IE browser version for transcoding purposes
 			
 	 HISTORY PAGE
-		-> Displays all transcoding videos connected the user's session ID or logged in account
-		-> Details shown in order from left to right are:
-			Id, Filename, Duration, Original, mp4 Link, webm Link, Progress
+		-> Displays all transcoding videos connected the user's session ID
 
 	 UPLOAD PAGE
 		-> Centered in the screen is a prompt for the user to select a file to upload
 		-> If the transcode button is pressed with no file loaded then a prompt to load a file will appear
 		-> If the button is pressed with a file loaded, a progress bar will update with the the status of the upload
-		
-		Note: Given the stage of development of this project, the file size has been limited to 10MB
 	
 	
 	7.0 SYSTEM INTERCONNECTIVITY
@@ -246,15 +235,18 @@
 					      Cookie Info & Video 			 		Video Object -> Redis Queue
 			Client ---------------------------------> Server ---------------------|----------> Amazon S3 Bucket
 		  Angular JS		JSON Return			  Ruby Sinatra					  -->FFmpeg
+		  
+		  
+			IAM - Amazon hard coded keys and pre-signed URLs are used between the Server and AWS for establishing
+				  a connection.
 		
-		
-		Output JSON Structure
-		 {
-		 id: @id, 
-		 name: @name, 
-		 duration: @duration, 
-		 original: @original, 
-		 mp4: @mp4, 
-		 webm: @webm, 
-		 progress: @progress
-		}
+			Input JSON Structure									Output JSON Structure
+			{														 {
+			filename:												 id: 
+			session id:												 name: 
+			}														 duration:
+																	 original:
+																	 mp4: 
+																	 webm:
+																	 progress:
+																	}
