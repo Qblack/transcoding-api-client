@@ -9,7 +9,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand"> <img alt="Brand" src="assets/img/video-image-sm.png"></a>
+				<a class="navbar-brand"> <img alt="Brand" src="assets/img/movie-clip-sm.png"></a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -24,8 +24,8 @@
 					<li ng-show="!path() && !showHome()"><a href="#/history">History</a></li>
 				</ul>
 
-				<ul ng-hide="showHome()" class="nav navbar-nav navbar-right">
-					{{existing_username}}
+				<ul ng-show="!showHome()" class="nav navbar-nav navbar-right">
+					<font size="6"><strong>{{existing_username}}</strong></font>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
