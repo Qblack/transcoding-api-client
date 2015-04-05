@@ -15,9 +15,9 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
     .controller('ViewFormCtrl', ['$scope','$cookies','localStorageService','awsApiService',function ($scope,$cookies,localStorageService, awsApi) {
 
         $scope.creds = {
-            bucket: 'fadsf',
-            access_key: 'asdf',
-            secret_key: 'fasd+asdf'
+            bucket: 'cp476-vids',
+            access_key: '',
+            secret_key: ''
         };
 
         $scope.sizeLimit      = 10585760*1000; // 10MB in Bytes
@@ -41,7 +41,7 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                 // Prepend Unique String To Prevent Overwrites
                 $scope.uniqueFileName = $scope.uniqueString() + '-' + $scope.file.name;
 
-                var params = { Key: $scope.uniqueFileName, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256' };
+                var params = { Key: $scope.uniqueFileName, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256', ACL: 'public-read' };
 
                 bucket.putObject(params, function(err, data) {
                     if(err) {

@@ -8,9 +8,8 @@ var awsApi = angular.module('awsApi', []);
 awsApi.factory('awsApiService', ['$resource','localStorageService', function($resource,localStorageService) {
     var service = {};
     var api_url = 'http://127.0.0.1:4567';
-    var Video = $resource(api_url+'/transcode/:id',{id:'@id'},
+    var Video = $resource(api_url+'/info/:id',{id:'@id'},
         {
-            'post':  { method: 'POST' },
             'get':   { method: 'GET', isArray: false }
         }
     );
@@ -22,9 +21,9 @@ awsApi.factory('awsApiService', ['$resource','localStorageService', function($re
     service.postVideo = function(file_name){
         var sessionId = localStorageService.get('sessionId');
 
-        return $resource(api_url+'/transcode/:sessionid').save({sessionid:sessionId},
-            {
-            'file_name': file_name
+        return $resource(api_url+'/transcode').save({
+          session: sessionId,
+          file_name: file_name
         });
     };
 
