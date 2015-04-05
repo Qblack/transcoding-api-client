@@ -12,6 +12,13 @@
                         </label>
                         <button type="submit" class="btn btn-primary pull-right" ng-click="login(user)">Start</button>
                     </div>
+                    <div class="form-group form-group-sm form-inline">
+                        <button class="btn btn-sm btn-info" ng-click="hasId = !hasId">Already have an ID?</button>
+                        <label>
+                            <input ng-show="hasId" class="form-control" type="text" ng-model="session">
+                        </label>
+                    </div>
+
                 </form>
             </div>
         </div>

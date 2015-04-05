@@ -20,7 +20,7 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
             secret_key: ''
         };
 
-        $scope.sizeLimit      = 10585760*1000; // 10MB in Bytes
+        $scope.sizeLimit      = 10585760*1000; // 10GB in Bytes
         $scope.uploadProgress = 0;
         $scope.type = 'info';
         $scope.active = 'active';
@@ -39,7 +39,7 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                     return false;
                 }
                 // Prepend Unique String To Prevent Overwrites
-                $scope.uniqueFileName = localStorageService.get('sessionId')+'/' +$scope.uniqueString() + '-' + $scope.file.name;
+                $scope.uniqueFileName = localStorageService.get('user')+localStorageService.get('sessionId')+'/' +$scope.uniqueString() + '-' + $scope.file.name;
 
                 var params = { Key: $scope.uniqueFileName, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256', ACL: 'public-read' };
 
