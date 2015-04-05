@@ -28,3 +28,17 @@
   content: "";
   padding: 0;
 }
+
+div.navbar-collapse {
+	background-color: #375A7F;
+}
+div.collapse {
+	background-color: #375A7F;
+}
+li.active{
+	background-color: #28415B;
+}
+a.navbar-brand{
+	max-width:10%;
+	max-height:10%;
+}
