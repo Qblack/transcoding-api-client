@@ -12,13 +12,15 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
         });
     }])
 
-    .controller('ViewHistoryCtrl', ['$scope','$cookies','awsApiService' ,function ($scope,$cookies,awsApi) {
+    .controller('ViewHistoryCtrl', ['$scope','localStorageService','awsApiService' ,function ($scope,localStorage,awsApi) {
         $scope.files = {};
+        $scope.timers = {};
 
-        angular.forEach($cookies, function(name, id){
-            if(id!="username"){
+        angular.forEach(localStorage.keys(), function( id){
+            if(id!="user" && id!='sessionId'){
                 awsApi.getFile(id).$promise.then(function(video) {
                     $scope.files[id] = video;
+                    $scope.timers[id] = id;
                 });
             }
         });
@@ -30,17 +32,16 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
         };
 
         $scope.updateAll = function(){
-            angular.forEach($scope.files, function(name, id){
-                if(id!="username"){
-                    if($scope.files[id].progress<100){
-                        $scope.updateProgress(id);
-                    }else{
-                        this.clearInterval();
-                    }
-                }
+            angular.forEach($scope.timers, function(name, id){
+              if($scope.files[id].progress<100) {
+                console.log('updating:' +id);
+                $scope.updateProgress(id);
+              }else{
+                console.log("CLEAR" +id)
+                delete $scope.timers[id];
+              }
             });
         };
-
         setInterval($scope.updateAll,1000);
 
 

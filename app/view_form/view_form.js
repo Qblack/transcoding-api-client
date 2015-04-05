@@ -12,18 +12,18 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
         });
     }])
 
-    .controller('ViewFormCtrl', ['$scope','$cookies','$cookieStore','awsApiService',function ($scope,$cookies,$cookieStore, awsApi) {
+    .controller('ViewFormCtrl', ['$scope','$cookies','localStorageService','awsApiService',function ($scope,$cookies,localStorageService, awsApi) {
 
         $scope.creds = {
-            bucket: 'fadsf',
-            access_key: 'asdf',
-            secret_key: 'fasd+asdf'
+            bucket: 'cp476-vids',
+            access_key: '',
+            secret_key: ''
         };
+
         $scope.sizeLimit      = 10585760*1000; // 10MB in Bytes
         $scope.uploadProgress = 0;
         $scope.type = 'info';
         $scope.active = 'active';
-
 
 
         $scope.upload = function() {
@@ -39,9 +39,9 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                     return false;
                 }
                 // Prepend Unique String To Prevent Overwrites
-                $scope.uniqueFileName = $scope.uniqueString() + '-' + $scope.file.name;
+                $scope.uniqueFileName = localStorageService.get('sessionId')+'/' +$scope.uniqueString() + '-' + $scope.file.name;
 
-                var params = { Key: $scope.uniqueFileName, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256', GrantRead:'Everyone' };
+                var params = { Key: $scope.uniqueFileName, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256', ACL: 'public-read' };
 
                 bucket.putObject(params, function(err, data) {
                     if(err) {
@@ -53,9 +53,9 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                         // Upload Successfully Finished
                         //fix id generation
                         var id = 0;
-                        awsApi.postVideo(JSON.stringify({'url':$scope.getFileUrl()})).$promise.then(function(response){
+                        awsApi.postVideo($scope.uniqueFileName).$promise.then(function(response){
                             id = response.id;
-                            $cookieStore.put(id,$scope.uniqueFileName);
+                            localStorageService.set(id,$scope.uniqueFileName);
                         });
 
                         // Reset The Progress Bar
@@ -98,7 +98,7 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
         };
 
         $scope.getFileUrl = function(){
-            return $scope.creds.bucket +'/'+ $scope.uniqueFileName;
+            return $scope.creds.bucket +'/'+  $scope.uniqueFileName;
         };
 
 
