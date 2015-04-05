@@ -15,12 +15,14 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
     .controller('ViewHistoryCtrl', ['$scope','localStorageService','awsApiService' ,function ($scope,localStorage,awsApi) {
         $scope.files = {};
         $scope.timers = {};
+        $scope.has_files = false;
 
         angular.forEach(localStorage.keys(), function( id){
             if(id!="user" && id!='sessionId'){
                 awsApi.getFile(id).$promise.then(function(video) {
                     $scope.files[id] = video;
                     $scope.timers[id] = id;
+                    $scope.has_files = true;
                 });
             }
         });
