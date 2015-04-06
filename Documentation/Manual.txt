@@ -200,18 +200,20 @@
 		Each user can have many transcoded videos however, each transcoded video record in database will belong to
 		only one user (1-Many Relationship between Table #1 and Table #2).
 	
-	6.2 VARIOUS PAGE INTERACTOINS
+	6.2 VARIOUS PAGE INTERACTIONS
+	
+		NAVIGATION BAR
 		-> Menu bar which includes links to the homepage, file upload screen, transcode history, and the Manual on the left side
 		-> This menu gets included in the top of each webpage for consistent user navigation
-		-> Contains logo in the leftmost corner of the navigation bar and displays signed in session ID on the right
-		-> Options fluctuation based on whether or not user has a valid session
+		-> Contains logo in the leftmost corner of the navigation bar and displays signed in username and session ID in the rightmost corner
+		-> Options fluctuate based on whether or not user has a valid session
 	
 	 HOME PAGE
 		-> Comprised of many separate files which get combined into one and wrapped with angular bootstraps, cookies, and other JS files
-		-> The four primary functions which the script and HTML files drive on the home page are listed below
+		-> The three primary functions which the script and HTML files drive on the home page are listed below
 		
-		Component One: NavBar
-			-> Displays navigation bar along top of screen as described above
+		Component One: Navigation Bar
+			-> Displays navigation bar along top of screen as described above on home page
 			-> Hides Home page option if user has logged into / selected a Session ID to use
 			-> Hides transcoding options if no session ID found in local storage
 			
