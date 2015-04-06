@@ -31,8 +31,10 @@ config(['$routeProvider', function($routeProvider) {
 
 .filter('deUnique', function () {
   return function(name) {
-    var hyphen_index = name.indexOf('-');
-    name = name.substr(hyphen_index+1);
+    if(name){
+      var hyphen_index = name.indexOf('-');
+      name = name.substr(hyphen_index+1);
+    }
     return name;
   };
 });
