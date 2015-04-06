@@ -38,7 +38,14 @@ div.collapse {
 li.active{
 	background-color: #28415B;
 }
+
+.navbar-default .navbar-text{
+  color: #ffffff;
+  font-size: 15px;
+}
+
 a.navbar-brand{
 	max-width:10%;
 	max-height:10%;
 }
+

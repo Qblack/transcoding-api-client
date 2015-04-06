@@ -25,30 +25,22 @@ angular.module('transcoding-ui.view_login', ['ngRoute', 'ui.bootstrap', 'LocalSt
         $scope.login = function(username){
 			var num = Math.floor(Math.random()*1000000);
 			localStorageService.set("user",username);
-			if(!$scope.hasId && $scope.session!=null){
+			if($scope.session == null){
 				localStorageService.set("sessionId",num);
+				$scope.session = num;
 			}else{
 				localStorageService.set("sessionId",$scope.session);
 			}
-
-
-			$window.location.assign('#/history');
+			if(username){
+				$window.location.assign('#/history');
+			}
         };
 		
-		$scope.showHome = function(){
-			var bool = true;
-			bool = !localStorageService.get("user");
-			return bool;
-		};
-		
-		$scope.path = function(){
-			var bool = true;
-			var loc = $window.location.href;
-			var last = loc.substr(loc.length - 7);
-			
-			bool = last == 'history';
-			//alert(last);
-			return bool;
+
+
+		$scope.clearIds = function(){
+			localStorageService.remove("sessionId");
+			localStorageService.remove("user");
 		}
 
     }]);

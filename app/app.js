@@ -13,6 +13,7 @@ angular.module('transcoding-ui', [
   'transcoding-ui.view_login',
   'transcoding-ui.view_home',
   'transcoding-ui.view_embedded',
+  'transcoding-ui.navbar',
   'awsApi'
 ]).
 config(['$routeProvider', function($routeProvider) {
@@ -26,4 +27,4 @@ config(['$routeProvider', function($routeProvider) {
   return function(url) {
     return $sce.trustAsResourceUrl(url);
   };
-}]);;
+}]);
