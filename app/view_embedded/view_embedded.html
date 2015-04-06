@@ -16,8 +16,7 @@
                         <tab heading="MP4">
                             <div class="row">
                                 <div class="col-md-6 col-md-offset-3">
-                                    <video ng-if="video.mp4" ng-src="{{video.mp4 | trusted}}" width="640" height="264" controls
-                                           poster="/assets/img/transcoding-progress.jpg"></video>
+                                    <video ng-if="video.mp4" ng-src="{{video.mp4 | trusted}}" width="640" height="264" controls></video>
                                     <img ng-if="!video.mp4" src="assets/img/transcoding-progress.jpg">
                                 </div>
                             </div>
@@ -25,8 +24,7 @@
                         <tab heading="WEBM">
                             <div class="row">
                                 <div class="col-md-6 col-md-offset-3">
-                                    <video ng-if="video.webm" ng-src="{{video.webm | trusted}}" width="640" height="264" controls
-                                            poster="/assets/img/transcoding-progress.jpg"></video>
+                                    <video ng-if="video.webm" ng-src="{{video.webm | trusted}}" width="640" height="264" controls></video>
                                     <img ng-if="!video.webm" src="assets/img/transcoding-progress.jpg">
                                 </div>
                             </div>

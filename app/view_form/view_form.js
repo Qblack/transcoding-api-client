@@ -61,6 +61,10 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                         awsApi.postVideo($scope.uniqueFileName).$promise.then(function(response){
                             id = response.id;
                             localStorageService.set(id,$scope.uniqueFileName);
+                            setTimeout(function() {
+                                    $window.location.href = '#/history';
+                                },2000
+                            )
                         });
 
                         // Reset The Progress Bar
@@ -77,7 +81,6 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                         if ($scope.uploadProgress ==100) {
                             $scope.type = 'success';
                             $scope.active = '';
-                            $window.location.href = '#/history'
                         }
                         $scope.$digest();
                     });

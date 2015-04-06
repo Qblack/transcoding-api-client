@@ -12,7 +12,7 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
         });
     }])
 
-    .controller('ViewHistoryCtrl', ['$scope','localStorageService','awsApiService' ,function ($scope,localStorage,awsApi) {
+    .controller('ViewHistoryCtrl', ['$scope','localStorageService','awsApiService','$window' ,function ($scope,localStorage,awsApi,$window) {
         $scope.files = {};
         $scope.timers = {};
         $scope.has_files = false;
@@ -26,6 +26,11 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
                 });
             }
         });
+
+        $scope.deleteFile = function(id){
+            localStorage.remove(id);
+            delete $scope.files[id];
+        };
 
         $scope.updateProgress = function(id){
             awsApi.getFile(id).$promise.then(function(video) {

@@ -1,7 +1,7 @@
 <div ng-controller="ViewHistoryCtrl">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div ng-if="has_files" class="col-md-10 col-md-offset-1">
+            <div ng-if="has_files" class="col-md-12">
                 <table  class="table table-striped">
                     <thead>
                         <tr>
@@ -11,7 +11,7 @@
                             <th>mp4 Link</th>
                             <th>webm Link</th>
                             <th>Progress</th>
-
+                            <th>    </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,11 +28,12 @@
                                     </span>
                                 </progressbar>
                             </td>
+                            <td><button ng-click="deleteFile(id)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div ng-if="!has_files" class="col-md-10 col-md-offset-1">
+            <div ng-if="!has_files" class="col-md-12">
                 <div class="col-md-6 col-md-offset-3">
                     <img src="assets/img/sad-puppy.jpg" height="100%" width="100%">
                 </div>
