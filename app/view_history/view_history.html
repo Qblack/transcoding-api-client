@@ -22,7 +22,7 @@
                             <td>{{file.mp4}}</td>
                             <td>{{file.webm}}</td>
                             <td>
-                                <progressbar value="file.progress" type="success" class="progress-striped">
+                                <progressbar value="file.progress" type="{{file.progress==100? 'success' : 'info'}}" class="progress-striped">
                                     <span style="color:white; white-space:nowrap;">
                                         {{file.progress}}%
                                     </span>
