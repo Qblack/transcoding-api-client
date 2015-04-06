@@ -131,7 +131,7 @@
 			Structure												Colin Hagerman
 			Content													Colin Hagerman
 			
-		Testing													Quinton Black, Colin Hagerman
+		Testing													Quinton Black, Colin Hagerman, Matthew Cook
 		
 			
 	3.0 INSTALLATION REQUIREMENTS
@@ -155,14 +155,15 @@
 					 
 	4.0	USING THE APPLICATION
 	
-		1) Open command line in transcoding project folder and enter $ npm start
-		2) After viewing message indicating the port number the server is running on, enter the URL: localhost:8000 (default port)
-		3) Enter the App folder to display the homepage
-		4) Enter desired username and press the Start button to be taken to the transaction history page
-		5) Select the upload button on the navigation bar along the top
-		6) Press the "choose file" button and select a video
-		7) Upload the file
-		8) Navigate to the transaction file to see a list of transcoded videos connected to the user account (temporary or otherwise)
+		1) Enter URL: http://transcode.vidhub.co/
+		2) Enter desired username and press the Start button to be taken to the transaction history page if Home page is displayed
+		3) View videos uploaded on the History page viewing their transcoding progress. Options to delete are present
+		4) Select the upload button on the navigation bar along the top
+		5) Press the "choose file" button and select a video
+		6) Upload the file
+		7) Navigate to the History page to see a list of transcoded videos
+		8) Click on a video's file name to watch the video in any (mp4 or webm) formats as well as download it in format of choice
+		See section 6.2 for more details on the User Interface.
 	
 	5.0 SERVER IMPLEMENTATION
 		
@@ -202,7 +203,7 @@
 	6.2 VARIOUS PAGE INTERACTOINS
 		-> Menu bar which includes links to the homepage, file upload screen, transcode history, and the Manual on the left side
 		-> This menu gets included in the top of each webpage for consistent user navigation
-		-> Contains company logo in the leftmost corner of the navigation bar
+		-> Contains logo in the leftmost corner of the navigation bar and displays signed in session ID on the right
 		-> Options fluctuation based on whether or not user has a valid session
 	
 	 HOME PAGE
@@ -211,23 +212,41 @@
 		
 		Component One: NavBar
 			-> Displays navigation bar along top of screen as described above
-			-> Hides Home page option if user has a session ID to avoid overwriting it
-			-> Hides transcoding options if no session ID to force user to create one as it is required for the history page
+			-> Hides Home page option if user has logged into / selected a Session ID to use
+			-> Hides transcoding options if no session ID found in local storage
 			
 		Component Two: Login (Session ID)
 			-> Welcome screen with prompt for username to create session ID
 			-> Includes start button to create corresponding session ID and redirect to transcoding history page
+			-> Provides option to delete a session ID and/or create a new one so multiple accounts can exist per computer
 			
 		Component Three: Home
 			-> A brief description of what transcoding is and some possible uses and functions of it can be found below the prompt
 			
 	 HISTORY PAGE
 		-> Displays all transcoding videos connected the user's session ID
+		-> Displays progress of videos already uploaded that are currently being transcoded
+		-> Displays file name, duration of video, as well as the link to the original file, mp4 file, webm file, and transcoding status
+		-> Allows option to delete a video, removing it from the user's session ID with an automatic update to the History page
+		-> Clicking on a video's file name will navigate user to the View Video Page
+		-> Threaded so multiple large videos can be uploaded allowing for simultaneous transcoding progresses to be monitored
 
 	 UPLOAD PAGE
 		-> Centered in the screen is a prompt for the user to select a file to upload
 		-> If the transcode button is pressed with no file loaded then a prompt to load a file will appear
 		-> If the button is pressed with a file loaded, a progress bar will update with the the status of the upload
+		-> If user navigates away from page (i.e. to History page) during upload, the file will still be uploaded and transcoding
+			progress will be added to the History page upon starting
+		-> Videos limited to 10GB
+		
+	 VIEW VIDEO PAGE
+		-> Double functionality within the Upload page
+		-> Allows user to watch the video in any of the three file formats (original, mp4, and webm)
+		-> Provides easy method for user to download the videos in any format by right clicking any of the bottom row of links and selecting
+			save as
+		-> Full screen viewing is an available option
+		
+		
 	
 	
 	7.0 SYSTEM INTERCONNECTIVITY
