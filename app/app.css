@@ -49,3 +49,7 @@ a.navbar-brand{
 	max-height:10%;
 }
 
+.progress {
+  height: 20px;
+}
+

@@ -12,7 +12,12 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
         });
     }])
 
-    .controller('ViewFormCtrl', ['$scope','$cookies','localStorageService','awsApiService',function ($scope,$cookies,localStorageService, awsApi) {
+    .controller('ViewFormCtrl',
+        ['$scope',
+            '$cookies',
+            'localStorageService',
+            'awsApiService',
+            '$window', function ($scope,$cookies,localStorageService,awsApi, $window) {
 
         $scope.creds = {
             bucket: 'cp476-vids',
@@ -72,6 +77,7 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
                         if ($scope.uploadProgress ==100) {
                             $scope.type = 'success';
                             $scope.active = '';
+                            $window.location.href = '#/history'
                         }
                         $scope.$digest();
                     });
