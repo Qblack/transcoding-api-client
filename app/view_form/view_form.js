@@ -21,8 +21,8 @@ angular.module('transcoding-ui.view_form', ['ngRoute', 'ui.bootstrap', 'ngCookie
 
         $scope.creds = {
             bucket: 'cp476-vids',
-            access_key: '',
-            secret_key: ''
+            access_key: 'AKIAI2CYGPH7N5JWYQ7A',
+            secret_key: '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'
         };
 
         $scope.sizeLimit      = 10585760*1000; // 10GB in Bytes
