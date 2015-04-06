@@ -32,9 +32,7 @@ config(['$routeProvider', function($routeProvider) {
 .filter('deUnique', function () {
   return function(name) {
     var hyphen_index = name.indexOf('-');
-    var extension_index = name.indexOf('.');
-    var len = extension_index-hyphen_index-1;
-    name = name.substr(hyphen_index+1,len);
+    name = name.substr(hyphen_index+1);
     return name;
   };
 });
