@@ -17,15 +17,17 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
         $scope.timers = {};
         $scope.has_files = localStorage.keys().length>2;
 
-        angular.forEach(localStorage.keys(), function( id){
-            if(id!="user" && id!='sessionId'){
-                awsApi.getFile(id).$promise.then(function(video) {
+
+
+        $scope.addFile = function(id){
+            awsApi.getFile(id).$promise.then(function(video) {
+                if (video.id){
                     $scope.files[id] = video;
-                    $scope.timers[id] = id;
-                    $scope.has_files = true;
-                });
-            }
-        });
+                }
+                $scope.timers[id] = id;
+                $scope.has_files = true;
+            });
+        };
 
         $scope.deleteFile = function(id){
             localStorage.remove(id);
@@ -43,13 +45,21 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
 
         $scope.updateAll = function(){
             angular.forEach($scope.timers, function(name, id){
-              if($scope.files[id].progress<100) {
-                $scope.updateProgress(id);
-              }else{
-                delete $scope.timers[id];
-              }
+                if(!$scope.files[id]){
+                    $scope.addFile(id);
+                }else if($scope.files[id].progress<100) {
+                    $scope.updateProgress(id);
+                }else if($scope.files[id].progress==100){
+                    delete $scope.timers[id];
+                }
             });
         };
+
+        angular.forEach(localStorage.keys(), function( id){
+            if(id!="user" && id!='sessionId'){
+                $scope.addFile(id);
+            }
+        });
         setInterval($scope.updateAll,1000);
 
 
