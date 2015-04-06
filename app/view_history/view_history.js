@@ -30,6 +30,8 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
         $scope.updateProgress = function(id){
             awsApi.getFile(id).$promise.then(function(video) {
                 $scope.files[id].progress = video.progress;
+                $scope.files[id].mp4 = video.mp4;
+                $scope.files[id].webm = video.webm;
             });
         };
 
