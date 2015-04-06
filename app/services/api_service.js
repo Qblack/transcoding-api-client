@@ -7,7 +7,7 @@ var awsApi = angular.module('awsApi', []);
 
 awsApi.factory('awsApiService', ['$resource','localStorageService', function($resource,localStorageService) {
     var service = {};
-    var api_url = 'http://127.0.0.1:4567';
+    var api_url = 'http://transcode.vidhub.co:8000';
     var Video = $resource(api_url+'/info/:id',{id:'@id'},
         {
             'get':   { method: 'GET', isArray: false }
@@ -33,13 +33,3 @@ awsApi.factory('awsApiService', ['$resource','localStorageService', function($re
     return service;
 
 }]);
-
-//{
-//    id: "7805501934",
-//        name: "Hello",
-//    duration: 25.5,
-//    original: "input.mov",
-//    mp4: "aws/1/etc/output.mp4",
-//    webm: "aws/output.webm",
-//    progress: 100
-//}
