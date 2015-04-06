@@ -15,7 +15,7 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
     .controller('ViewHistoryCtrl', ['$scope','localStorageService','awsApiService','$window' ,function ($scope,localStorage,awsApi,$window) {
         $scope.files = {};
         $scope.timers = {};
-        $scope.has_files = false;
+        $scope.has_files = localStorage.keys().length>2;
 
         angular.forEach(localStorage.keys(), function( id){
             if(id!="user" && id!='sessionId'){
@@ -30,6 +30,7 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
         $scope.deleteFile = function(id){
             localStorage.remove(id);
             delete $scope.files[id];
+            $scope.has_files = localStorage.keys().length>2;
         };
 
         $scope.updateProgress = function(id){
