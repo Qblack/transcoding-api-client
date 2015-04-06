@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>{{video.name}}</h1>
+                <h1>{{video.name | deUnique}}</h1>
                 <div class="row">
                     <tabset  type="pills">
                         <tab heading="Original">

@@ -24,7 +24,17 @@ config(['$routeProvider', function($routeProvider) {
   $resourceProvider.defaults.stripTrailingSlashes = false;
 }])
 .filter('trusted', ['$sce', function ($sce) {
-  return function(url) {
-    return $sce.trustAsResourceUrl(url);
+      return function (url) {
+        return $sce.trustAsResourceUrl(url);
+      };
+    }])
+
+.filter('deUnique', function () {
+  return function(name) {
+    var hyphen_index = name.indexOf('-');
+    var extension_index = name.indexOf('.');
+    var len = extension_index-hyphen_index-1;
+    name = name.substr(hyphen_index+1,len);
+    return name;
   };
-}]);
+});

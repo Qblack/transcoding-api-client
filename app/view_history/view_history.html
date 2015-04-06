@@ -16,7 +16,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="(id, file) in files">
-                            <td><a href="#/embedded/{{id}}">{{file.name}}</a></td>
+                            <td><a href="#/embedded/{{id}}">{{file.name | deUnique}}</a></td>
                             <td>{{file.duration}}</td>
                             <td>{{file.original}}</td>
                             <td>{{file.mp4}}</td>
