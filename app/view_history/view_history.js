@@ -36,10 +36,8 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
         $scope.updateAll = function(){
             angular.forEach($scope.timers, function(name, id){
               if($scope.files[id].progress<100) {
-                console.log('updating:' +id);
                 $scope.updateProgress(id);
               }else{
-                console.log("CLEAR" +id)
                 delete $scope.timers[id];
               }
             });
