@@ -17,8 +17,6 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
         $scope.timers = {};
         $scope.has_files = localStorage.keys().length>2;
 
-
-
         $scope.addFile = function(id){
             awsApi.getFile(id).$promise.then(function(video) {
                 if (video.id){
@@ -50,7 +48,11 @@ angular.module('transcoding-ui.view_history', ['ngRoute', 'ui.bootstrap', 'ngCoo
                 }else if($scope.files[id].progress<100) {
                     $scope.updateProgress(id);
                 }else if($scope.files[id].progress==100){
-                    delete $scope.timers[id];
+                    if($scope.files[id].webm && $scope.files[id].mp4){
+                        delete $scope.timers[id];
+                    }else{
+                        $scope.updateProgress(id);
+                    }
                 }
             });
         };
